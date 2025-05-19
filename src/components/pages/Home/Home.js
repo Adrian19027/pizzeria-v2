@@ -8,14 +8,14 @@ const Home = () => {
 
     return (
         <>
-            <PageTitle>Home</PageTitle>
+            <PageTitle>All tables</PageTitle>
             {tables.map(table => (
-                <Row key={table.id} className="align-items-center mb-3">
+                <Row key={table.id} className="align-items-center mb-3 border-bottom pb-1">
                     <Col xs={3}>
                         <strong>Table {table.id}</strong>
                     </Col>
                     <Col xs={5}>
-                        Status: {table.status}
+                        <strong>Status:</strong> {table.status}
                     </Col>
                     <Col xs={4}>
                         <Button as={Link} to={`/table/${table.id}`} variant="primary">
