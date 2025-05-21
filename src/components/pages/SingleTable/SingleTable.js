@@ -22,31 +22,31 @@ const SingleTable = () => {
 
 
     const [status, setStatus] = useState('');
-    const [peopleAmount, setPeopleAmount] = useState(0);
-    const [bill, setBill] = useState(0);
-    const [maxPeopleAmount, setMaxPeopleAmount] = useState(0);
+    const [peopleAmount, setPeopleAmount] = useState("0");
+    const [bill, setBill] = useState("0");
+    const [maxPeopleAmount, setMaxPeopleAmount] = useState("0");
     const [isUpdating, setIsUpdating] = useState(false);
 
     useEffect(() => {
         if (table) {
             setStatus(table.status);
-            setPeopleAmount(table.peopleAmount);
-            setBill(table.bill);
-            setMaxPeopleAmount(table.maxPeopleAmount);
+            setPeopleAmount(String(table.peopleAmount));
+            setBill(String(table.bill));
+            setMaxPeopleAmount(String(table.maxPeopleAmount));
         }
     }, [table]);
     
     useEffect(() => {
         if (status === "Cleaning" || status === "Free") {
-            setPeopleAmount(0);
-            setBill(0);
+            setPeopleAmount("0");
+            setBill("0");
         }
     }, [status]);
 
 
     useEffect(() => {
         if (Number(peopleAmount) > Number(maxPeopleAmount)) {
-            setPeopleAmount(Number(maxPeopleAmount));
+            setPeopleAmount(String(maxPeopleAmount));
         }
     }, [maxPeopleAmount, peopleAmount]);
     
@@ -58,9 +58,9 @@ const SingleTable = () => {
         const updatedTable = {
             id: table.id,
             status: status || "Free",
-            peopleAmount: peopleAmount || 0,
-            maxPeopleAmount: maxPeopleAmount || 0,
-            bill: bill || 0,
+            peopleAmount: parseInt(peopleAmount) || 0,
+            maxPeopleAmount: parseInt(maxPeopleAmount) || 0,
+            bill: parseInt(bill) || 0,
         };
         dispatch(updateTableOnServer(table.id, updatedTable))
             .then(() => {
@@ -93,7 +93,7 @@ const SingleTable = () => {
     );
 };
 
-SingleTable.propTypes = {
+/* SingleTable.propTypes = {
     table: PropTypes.shape({
         id: PropTypes.string.isRequired,
         status: PropTypes.string.isRequired,
@@ -103,6 +103,6 @@ SingleTable.propTypes = {
     }),
     navigate: PropTypes.func.isRequired,
     dispatch: PropTypes.func.isRequired
-};
+}; */
 
 export default SingleTable;

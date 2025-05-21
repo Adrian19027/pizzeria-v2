@@ -21,9 +21,9 @@ const TableForm = ({
             <Form.Group className={styles.formGroup} controlId="formPeopleAmount">
                 <div className="d-flex align-items-center gap-2 mb-2">
                     <Form.Label className={styles.label}><strong>People: </strong></Form.Label>
-                        <Form.Control size="sm" className={`w-auto ${styles.input}`} type="number" min={0} max={10} value={peopleAmount} onChange={(e) => setPeopleAmount(Number(e.target.value))} />
+                        <Form.Control size="sm" className={`w-auto ${styles.input}`} type="number" min={0} max={10} value={peopleAmount} onChange={(e) => setPeopleAmount(e.target.value)} />
                         <span>/</span>
-                        <Form.Control size="sm" className={`w-auto ${styles.input}`} type="number" min={0} max={10} value={maxPeopleAmount} onChange={(e) => setMaxPeopleAmount(Number(e.target.value))} />
+                        <Form.Control size="sm" className={`w-auto ${styles.input}`} type="number" min={0} max={10} value={maxPeopleAmount} onChange={(e) => setMaxPeopleAmount(e.target.value)} />
                 </div>
             </Form.Group>
 
@@ -31,7 +31,7 @@ const TableForm = ({
                 <div className="d-flex align-items-center gap-2 mb-2">
                     <Form.Label className={styles.label}><strong>Bill: </strong></Form.Label>
                     <span>$</span>
-                    <Form.Control className={`w-auto ${styles.input}`} type="number" value={bill} onChange={(e) => setBill(Number(e.target.value))} />
+                    <Form.Control className={`w-auto ${styles.input}`} type="number" value={bill} onChange={(e) => setBill(e.target.value)} />
                 </div>
             </Form.Group>)}
             <Button variant="primary" onClick={handleUpdate}>Update</Button>
@@ -42,11 +42,11 @@ const TableForm = ({
 TableForm.propTypes = {
     status: PropTypes.string.isRequired,
     setStatus: PropTypes.func.isRequired,
-    peopleAmount: PropTypes.number.isRequired,
+    peopleAmount: PropTypes.string.isRequired,
     setPeopleAmount: PropTypes.func.isRequired,
-    maxPeopleAmount: PropTypes.number.isRequired,
+    maxPeopleAmount: PropTypes.string.isRequired,
     setMaxPeopleAmount: PropTypes.func.isRequired,
-    bill: PropTypes.number.isRequired,
+    bill: PropTypes.string.isRequired,
     setBill: PropTypes.func.isRequired,
     handleUpdate: PropTypes.func.isRequired,
 };
