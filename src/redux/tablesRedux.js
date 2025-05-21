@@ -1,3 +1,4 @@
+import { API_URL } from "../config";
 
 //selectors
 export const getAllTables = state => state.tables;
@@ -22,7 +23,7 @@ export const updateTableOnServer = (id, updatedTable) => {
     };
 
     try {
-      const res = await fetch(`http://localhost:3131/api/tables/${id}`, {
+      const res = await fetch(`${API_URL}/tables/${id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -43,7 +44,7 @@ export const updateTableOnServer = (id, updatedTable) => {
 
 export const fetchTables = () => {
   return async (dispatch) => {
-    const res = await fetch('http://localhost:3131/api/tables');
+    const res = await fetch(`${API_URL}/tables`);
     const tables = await res.json();
     return dispatch(updateTables(tables));
   };
