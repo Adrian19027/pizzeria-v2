@@ -20,7 +20,7 @@ export const updateTableOnServer = (id, updatedTable) => {
       maxPeopleAmount: updatedTable.maxPeopleAmount,
       bill: updatedTable.bill
     };
-    
+
     try {
       const res = await fetch(`http://localhost:3131/api/tables/${id}`, {
         method: 'PATCH',
@@ -42,10 +42,10 @@ export const updateTableOnServer = (id, updatedTable) => {
 }
 
 export const fetchTables = () => {
-  return (dispatch) => {
-    fetch('http://localhost:3131/api/tables')
-      .then(res => res.json())
-      .then(tables => dispatch(updateTables(tables)));
+  return async (dispatch) => {
+    const res = await fetch('http://localhost:3131/api/tables');
+    const tables = await res.json();
+    return dispatch(updateTables(tables));
   };
 };
 const tablesReducer = (statePart = [], action) => {
