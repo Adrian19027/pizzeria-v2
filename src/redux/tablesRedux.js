@@ -12,34 +12,31 @@ export const updateTables = payload => ({ type: UPDATE_TABLES, payload });
 export const updateTable = payload => ({ type: UPDATE_TABLE, payload });
 
 export const updateTableOnServer = (id, updatedTable) => {
-  return (dispatch) => {
+  return async (dispatch) => {
     const tableToUpdate = {
       id: updatedTable.id,
-      status: updatedTable.status || "Free",
-      peopleAmount: updatedTable.peopleAmount || 0,
-      maxPeopleAmount: updatedTable.maxPeopleAmount || 0,
-      bill: updatedTable.bill || 0,
+      status: updatedTable.status,
+      peopleAmount: updatedTable.peopleAmount,
+      maxPeopleAmount: updatedTable.maxPeopleAmount,
+      bill: updatedTable.bill
     };
-
-    fetch(`http://localhost:3131/api/tables/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(tableToUpdate),
-    })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error('Failed to update table');
-      }
-        return res.json()
-      })
-      .then((updatedTable) => {
-        dispatch(updateTable(updatedTable));
-      })
-      .catch((error) => {
-        console.error('Error updating table:', error);
+    
+    try {
+      const res = await fetch(`http://localhost:3131/api/tables/${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(tableToUpdate),
       });
+      if (!res.ok) {
+        throw new Error('Failed to update table');
+      }
+      const updatedTable = await res.json();
+      dispatch(updateTable(updatedTable));
+    } catch (error) {
+      console.error('Error updating table:', error);
+    }
       
   }  
 }

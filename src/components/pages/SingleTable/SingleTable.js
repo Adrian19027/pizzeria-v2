@@ -1,10 +1,11 @@
-import { Button, Form} from "react-bootstrap";
 import { getTableById } from "../../../redux/tablesRedux";
 import PageTitle from "../../common/PageTitle/PageTitle";
 import { useSelector, useDispatch} from "react-redux";
 import { useParams,useNavigate} from "react-router-dom";
 import { useState,useEffect } from "react";
 import { updateTableOnServer } from "../../../redux/tablesRedux";
+import TableForm from "../../features/TableForm/TableForm";
+import PropTypes from "prop-types";
 
 const SingleTable = () => {
     const { id } = useParams();
@@ -36,6 +37,7 @@ const SingleTable = () => {
     useEffect(() => {
         if (status === "Cleaning" || status === "Free") {
             setPeopleAmount(0);
+            setBill(0);
         }
     }, [status]);
 
@@ -56,39 +58,40 @@ const SingleTable = () => {
             maxPeopleAmount: maxPeopleAmount || 0,
             bill: bill || 0,
         };
-        dispatch(updateTableOnServer(table.id, updatedTable));
+        dispatch(updateTableOnServer(table.id, updatedTable))
+            .then(() => {
+                navigate('/');
+            });
     };
 
     return (
-    <>
+        <>
             <PageTitle>Table {table.id}</PageTitle>
-            <Form>
-                <Form.Group controlId="formStatus">
-                    <Form.Label><strong>Status:</strong></Form.Label>
-                    <Form.Control className="w-auto" as="select" value={status} onChange={(e) => setStatus(e.target.value)}>
-                        <option>Free</option>
-                        <option>Busy</option>
-                        <option>Cleaning</option>
-                        <option>Reserved</option>
-                    </Form.Control>
-                </Form.Group>
-                <Form.Group controlId="formPeopleAmount">
-                    <Form.Label><strong>People: </strong>
-                        <Form.Control className="w-auto" type="number" min={0} max={10} value={peopleAmount} onChange={(e) => setPeopleAmount(Number(e.target.value))} />
-                        <span>/</span>
-                        <Form.Control className="w-auto" type="number" min={0} max={10} value={maxPeopleAmount} onChange={(e) => setMaxPeopleAmount(Number(e.target.value))}/>
-                    </Form.Label>
-                </Form.Group>
+            <TableForm
+                status={status}
+                setStatus={setStatus}
+                peopleAmount={peopleAmount}
+                setPeopleAmount={setPeopleAmount}
+                maxPeopleAmount={maxPeopleAmount}
+                setMaxPeopleAmount={setMaxPeopleAmount}
+                bill={bill}
+                setBill={setBill}
+                handleUpdate={handleUpdate}
+            />
+        </>
+    );
+};
 
-                {status === "Busy" && (<Form.Group controlId="formBill">
-                    <Form.Label><strong>Bill: </strong> $
-                        <Form.Control className="w-auto" type="number" value={bill} onChange={(e) => setBill(Number(e.target.value))} />
-                    </Form.Label>
-                </Form.Group>)}
-                <Button variant="primary" onClick={handleUpdate}>Update</Button>
-            </Form>
-    </> 
-    )
-}
+SingleTable.propTypes = {
+    table: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        status: PropTypes.string.isRequired,
+        peopleAmount: PropTypes.number.isRequired,
+        maxPeopleAmount: PropTypes.number.isRequired,
+        bill: PropTypes.number.isRequired
+    }),
+    navigate: PropTypes.func.isRequired,
+    dispatch: PropTypes.func.isRequired
+};
 
 export default SingleTable;
