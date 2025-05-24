@@ -5,7 +5,7 @@ import { useParams,useNavigate} from "react-router-dom";
 import { useState,useEffect } from "react";
 import { updateTableOnServer } from "../../../redux/tablesRedux";
 import TableForm from "../../features/TableForm/TableForm";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import { Spinner } from "react-bootstrap";
 
 const SingleTable = () => {
