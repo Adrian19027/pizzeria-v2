@@ -15,8 +15,7 @@ const Home = () => {
 
     return (
         <>
-            {loading ? <LoadingSpinner />
-            : <TableList tables={tables} />}
+            {loading ? <LoadingSpinner /> : <TableList tables={tables} />}
         </>
     )
 };
